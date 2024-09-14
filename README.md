@@ -6,13 +6,13 @@
 - выполнить гамма-коррекцию изображения moscow.jpg для следующих значений гамма: `0.1, 0.5, 1.2, 2.2`
 - выполнить над изображением `moscow.jpg` кусочно-линейное преобразование вида
 
-- ![img.png](img.png)
+- ![img.png](lab2/img.png)
  
 с параметрами `r1 = 70, s1 = 0, r2 = 140, s2 = 255`
 
 ## 2. Логические операции
    - создать 2 изображения `img1 `и `img2` размером 200х400 вида
-![img_1.png](img_1.png)
+![img_1.png](lab2/img_1.png)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; img2
 
 
