@@ -1,6 +1,6 @@
-import cv2 as cv
 import numpy as np
-from matplotlib import pyplot as plt
+import cv2 as cv
+import matplotlib.pyplot as plt
 
 
 def linear_filter(img, kernel):
@@ -53,47 +53,52 @@ def bilateral_filter(img):
     return cv.bilateralFilter(img, -1, sigmaColor=10, sigmaSpace=5)
 
 
-def prewwit_hui_Znaetcho(img):
-    # Convert to grayscale if necessary
-    if len(img.shape) == 3:  # Check if it's a color image
-        img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-
-    img = img.astype(np.float32) / 255.0  # Normalize and convert to float32
-
-    kernel_prewitt_x = np.array([[-1, 0, 1],
-                                 [-1, 0, 1],
-                                 [-1, 0, 1]])
-
-    kernel_prewitt_y = np.array([[-1, -1, -1],
-                                 [0, 0, 0],
-                                 [1, 1, 1]])
-
+def prewitt_filter(img):
+    kernel_prewitt_x = np.array([[1, 0, -1], [1, 0, -1], [1, 0, -1]])
+    kernel_prewitt_y = np.array([[1, 1, 1], [0, 0, 0], [-1, -1, -1]])
     prewitt_x = cv.filter2D(img, -1, kernel_prewitt_x)
     prewitt_y = cv.filter2D(img, -1, kernel_prewitt_y)
+    return prewitt_x + prewitt_y
 
-    # Make sure the types are correct for magnitude function
-    if prewitt_x.shape == prewitt_y.shape and prewitt_x.dtype == prewitt_y.dtype:
-        return cv.magnitude(prewitt_x, prewitt_y)
-    else:
-        raise ValueError("prewitt_x and prewitt_y must have the same size and type.")
+def sobel_filter(img):
+    sobel_x = cv.Sobel(img, cv.CV_64F, 1, 0, ksize=3)
+    sobel_y = cv.Sobel(img, cv.CV_64F, 0, 1, ksize=3)
+    return sobel_x + sobel_y
+
+def scharr_filter(img):
+    scharr_x = cv.Scharr(img, cv.CV_64F, 1, 0)
+    scharr_y = cv.Scharr(img, cv.CV_64F, 0, 1)
+    return  scharr_x + scharr_y
+
+def laplace_filter(img):
+    return  cv.Laplacian(img, cv.CV_64F)
+
+def modificated_laplace_filter(img):
+    kernel_modified_laplace = np.array([[0, 1, 0], [1, -4, 1], [0, 1, 0]])
+    return cv.filter2D(img, -1, kernel_modified_laplace)
 
 
-def display_images(original, *images):
-    num_images = len(images) + 1
-    plt.figure(figsize=(15, 5))
+def display_images(original, images, titles):
+    num_images = len(images)
+    num_cols = (num_images + 1) // 2
 
-    plt.subplot(1, num_images, 1)
+    plt.figure(figsize=(15, 8))
+
+    plt.subplot(2, num_cols, 1)
     plt.imshow(cv.cvtColor(original, cv.COLOR_BGR2RGB))
     plt.title('Original Image')
     plt.axis('off')
 
-    for i, img in enumerate(images):
-        plt.subplot(1, num_images, i + 2)
+    for i, (img, title) in enumerate(zip(images, titles)):
+        if img.dtype != 'uint8':
+            img = cv.normalize(img, None, 0, 255, cv.NORM_MINMAX).astype(np.uint8)
+
+        plt.subplot(2, num_cols, i + 2)
         plt.imshow(cv.cvtColor(img, cv.COLOR_BGR2RGB))
-        # todo добпавить как нибудь имена хз костичев не поймет (да и никто из нас тоже где чио)
-        plt.title(f'Filter {i + 1}')
+        plt.title(title)
         plt.axis('off')
 
+    plt.tight_layout()
     plt.show()
 
 
@@ -102,10 +107,23 @@ kernel = np.array([-0.1, 0.2, -0.1,
                    -0.1, 0.2, -0.1])
 
 image_cubic = cv.imread('image0.jpg')
-image_cat = cv.imread('cat.jpg')
+image_cat = cv.imread('cat.jpg', cv.IMREAD_GRAYSCALE)
 
-# cv.imshow('df', image_cubic)
-# cv.waitKey(0)
-# cv.imshow('df', median_filter(image_cubic))
+
+
+
+filtered_images = [prewitt_filter(image_cat), sobel_filter(image_cat),
+                   scharr_filter(image_cat), laplace_filter(image_cat),
+                   modificated_laplace_filter(image_cat)]
+filter_titles = ['Prewitt', 'Sobel', 'Scharr', 'Laplacian', 'Modified Laplacian']
+
+display_images(image_cat, filtered_images, filter_titles)
+
+
+filtered_images = [prewitt_filter(image_cat), sobel_filter(image_cat),
+                   scharr_filter(image_cat), laplace_filter(image_cat),
+                   modificated_laplace_filter(image_cat)]
+filter_titles = ['Prewitt', 'Sobel', 'Scharr', 'Laplacian', 'Modified Laplacian']
+
 display_images(image_cubic,linear_filter(image_cubic,kernel),box_filter_norm_true(image_cubic),box_filter_norm_false(image_cubic),gaussian_blur(image_cubic),median_filter(image_cubic),bilateral_filter(image_cubic),prewwit_hui_Znaetcho(image_cat))
 
