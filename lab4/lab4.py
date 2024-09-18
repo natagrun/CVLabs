@@ -60,18 +60,22 @@ def prewitt_filter(img):
     prewitt_y = cv.filter2D(img, -1, kernel_prewitt_y)
     return prewitt_x + prewitt_y
 
+
 def sobel_filter(img):
     sobel_x = cv.Sobel(img, cv.CV_64F, 1, 0, ksize=3)
     sobel_y = cv.Sobel(img, cv.CV_64F, 0, 1, ksize=3)
     return sobel_x + sobel_y
 
+
 def scharr_filter(img):
     scharr_x = cv.Scharr(img, cv.CV_64F, 1, 0)
     scharr_y = cv.Scharr(img, cv.CV_64F, 0, 1)
-    return  scharr_x + scharr_y
+    return scharr_x + scharr_y
+
 
 def laplace_filter(img):
-    return  cv.Laplacian(img, cv.CV_64F)
+    return cv.Laplacian(img, cv.CV_64F)
+
 
 def modificated_laplace_filter(img):
     kernel_modified_laplace = np.array([[0, 1, 0], [1, -4, 1], [0, 1, 0]])
@@ -107,10 +111,15 @@ kernel = np.array([-0.1, 0.2, -0.1,
                    -0.1, 0.2, -0.1])
 
 image_cubic = cv.imread('image0.jpg')
-image_cat = cv.imread('cat.jpg', cv.IMREAD_GRAYSCALE)
+image_cat = cv.imread('cat.jpg')
 
+filtered_images = [linear_filter(image_cubic, kernel), linear_arithmetical_filter(image_cubic),
+                   box_filter_norm_true(image_cubic), box_filter_norm_false(image_cubic),
+                   gaussian_blur(image_cubic), median_filter(image_cubic), bilateral_filter(image_cubic)]
+filter_titles = ['Linear', 'linear_arithmetical', 'box_filter_norm_true', 'box_filter_norm_false', 'gaussian_blur',
+                 'median_filter', 'bilateral_filter']
 
-
+display_images(image_cubic, filtered_images, filter_titles)
 
 filtered_images = [prewitt_filter(image_cat), sobel_filter(image_cat),
                    scharr_filter(image_cat), laplace_filter(image_cat),
@@ -118,12 +127,3 @@ filtered_images = [prewitt_filter(image_cat), sobel_filter(image_cat),
 filter_titles = ['Prewitt', 'Sobel', 'Scharr', 'Laplacian', 'Modified Laplacian']
 
 display_images(image_cat, filtered_images, filter_titles)
-
-
-filtered_images = [prewitt_filter(image_cat), sobel_filter(image_cat),
-                   scharr_filter(image_cat), laplace_filter(image_cat),
-                   modificated_laplace_filter(image_cat)]
-filter_titles = ['Prewitt', 'Sobel', 'Scharr', 'Laplacian', 'Modified Laplacian']
-
-display_images(image_cubic,linear_filter(image_cubic,kernel),box_filter_norm_true(image_cubic),box_filter_norm_false(image_cubic),gaussian_blur(image_cubic),median_filter(image_cubic),bilateral_filter(image_cubic),prewwit_hui_Znaetcho(image_cat))
-
