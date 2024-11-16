@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from skimage import io
+import cv2 as cv
 
 
 def butterworth_lowpass_filter(shape, D0, n):
@@ -15,7 +15,7 @@ def butterworth_lowpass_filter(shape, D0, n):
 
 
 def first_task():
-    image = io.imread('white_sq.jpg', as_gray=True)
+    image = cv.imread('white_sq.jpg', cv.IMREAD_GRAYSCALE)
 
     f = np.fft.fft2(image)
     f_shifted = np.fft.fftshift(f)
@@ -46,7 +46,7 @@ def first_task():
 
 
 def second_task():
-    image_moscow = io.imread('moscow.jpg', as_gray=True)
+    image_moscow = cv.imread('moscow.jpg', cv.IMREAD_GRAYSCALE)
     f_moscow = np.fft.fft2(image_moscow)
     f_moscow_shifted = np.fft.fftshift(f_moscow)
 
