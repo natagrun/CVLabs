@@ -38,7 +38,6 @@ def XYreflection_Image():
     (h,w) = image.shape[:2]
     x_reflection = np.float32([[1, 0, 0], [0, -1, h]])
     y_reflection =  np.float32([[-1, 0, w], [0, 1, 0]])
-    print(h,w)
     x_image = cv.warpAffine(image, x_reflection,(w,h))
     y_image = cv.warpAffine(image, y_reflection,(w,h))
     cv.imshow('X reflection', x_image)
