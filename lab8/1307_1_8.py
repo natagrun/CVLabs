@@ -234,7 +234,7 @@ def approximate_contour(image_path):
     # Отрисовка аппроксимированного контура
     cv.drawContours(image, [approx], -1, (255, 0, 0), 2)
     plt.imshow(cv.cvtColor(image, cv.COLOR_BGR2RGB))
-    plt.title("Аппроксимация полигона")
+    plt.title("Аппроксимация полигона с 1 %")
     plt.axis('off')
     plt.show()
 
@@ -245,7 +245,7 @@ def compare_shapes(image1_path, image2_path):
     contours1, _ = cv.findContours(binary1, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
     contours2, _ = cv.findContours(binary2, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
 
-    match = cv.matchShapes(contours1[0], contours2[0], cv.CONTOURS_MATCH_I1, 0.0)
+    match = cv.matchShapes(contours1[0], contours2[0], cv.CONTOURS_MATCH_I1, 1.0)
     print(f"Разница между контурами: {match}")
 
 
