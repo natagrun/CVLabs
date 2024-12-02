@@ -53,7 +53,7 @@ def region_growing(image, seed_points, threshold=10):
     neighbors = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
 
     for seed in seed_points:
-        y, x = seed
+        x, y = seed
         intensity = image[y, x]  # Интенсивность начальной точки
         visited = np.zeros_like(image, dtype=bool)  # Маска посещённых пикселей
         queue = [(x, y)]  # Очередь для обработки
@@ -73,12 +73,7 @@ def region_growing(image, seed_points, threshold=10):
 
 # Загрузка изображен
 def third():
-    im = cv2.imread('region_growing.jpg', cv2.IMREAD_GRAYSCALE)
-    new_size = np.array(im.shape[:2]) * 2
-    input_image = cv2.resize(im, new_size)
-    cv2.imshow("sac",input_image)
-    cv2.imwrite("sasi.jpg", input_image)
-    cv2.waitKey(0)
+    input_image = cv2.imread('region_growing.jpg', cv2.IMREAD_GRAYSCALE)
     if input_image is None:
         raise FileNotFoundError("Файл region_growing.jpg не найден.")
 
@@ -86,7 +81,7 @@ def third():
     seed_points = [(176, 255), (229, 405), (347, 165)]
 
     # Применение метода выращивания областей
-    result_image = region_growing(input_image, seed_points, threshold=10)
+    result_image = region_growing(input_image, seed_points, threshold=0)
 
     # Отображение оригинального и результата рядом с использованием matplotlib
     plt.figure(figsize=(10, 5))
@@ -107,6 +102,6 @@ def third():
     plt.show()
 
 
-# first()
-# second()
+first()
+second()
 third()
